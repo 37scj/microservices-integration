@@ -1,0 +1,11 @@
+.drone {
+    border: 1px solid #000;
+    margin-bottom: 40px;
+    /* padding: 5px;  */
+    padding: 20px 0;
+}
+.dronetitle{
+    background-color: #4CAF50;
+    padding: 4px;
+
+}

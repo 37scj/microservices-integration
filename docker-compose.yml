@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+#    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
+    volumes:
+    - ./enabled_plugins:/etc/rabbitmq/enabled_plugins

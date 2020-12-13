@@ -103,6 +103,7 @@
                             <SPRING_DATASOURCE_PASSWORD>root</SPRING_DATASOURCE_PASSWORD>
                             <SPRING_DATASOURCE_URL>jdbc://mysql</SPRING_DATASOURCE_URL>
                         </env>
+                        <publish>true</publish>
                     </image>
                     <layers>
                         <enabled>true</enabled>

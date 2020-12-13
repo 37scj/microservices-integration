@@ -51,10 +51,8 @@ services:
     image: gabrielltr/dronebackend:0.1.1-SNAPSHOT
     #build: ./droneBackend/
     depends_on:
-      db:
-        condition: service_healthy
-      rabbit:
-        condition: service_healthy
+      - db
+      - rabbit
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
       interval: 1m10s
@@ -72,6 +70,13 @@ services:
     networks:
       - ms_network
 
+  icc-react-web-app:
+    image: gabrielltr/icc-react-web-app:0.1.0
+    build: ./icc-react-web-app/
+    ports:
+      - 80:80
+    environment:
+      REACT_APP_GMAPSKEY: AIzaSyAet8Mk1nPvOn_AebLE5ZxXoGejOD8tPzA
 volumes:
   db-data:
 

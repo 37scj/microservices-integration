@@ -27,9 +27,18 @@ When ready you can access portainer by URL http://localhost:9000
 
 ### Start with docker compose
 
+
+Stack for Swarm:
 ```shell
-docker-compose up
+docker stack deploy -c docker-compose.yml microservices --prune
 ```
+
+
+Local compose:
+```shell
+docker-compose up -d
+```
+
 
 # Documentação 
 

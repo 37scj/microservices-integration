@@ -10,7 +10,7 @@
     </parent>
     <groupId>br.com.fiap</groupId>
     <artifactId>dronebackend</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
     <name>drone Backend</name>
     <description>Drone backend project MBA FIAP</description>
 
@@ -97,7 +97,7 @@
                 <configuration>
                     <image>
                         <name>docker.io/gabrielltr/${project.artifactId}:${project.version}</name>
-                        <cleanCache>true</cleanCache>
+<!--                        <cleanCache>true</cleanCache>-->
                         <env>
                             <SPRING_DATASOURCE_USER>root</SPRING_DATASOURCE_USER>
                             <SPRING_DATASOURCE_PASSWORD>root</SPRING_DATASOURCE_PASSWORD>

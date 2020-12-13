@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.8'
 
 services:
 
@@ -7,9 +7,16 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    healthcheck:
+#      test: [ "CMD", "rabbitmqctl" ,"node_health_check" ]
+      test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
+      timeout: 50s
+      retries: 10
     #    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
     volumes:
       - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
+    networks:
+      - ms_network
 
   db:
     image: mysql
@@ -25,6 +32,10 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: fiappass
       MYSQL_DATABASE: droneDB
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     networks:
       - ms_network
 
@@ -37,22 +48,24 @@ services:
       - ms_network
 
   drone:
-    image: gabrielltr/dronebackend
-#    build: ./droneBackend/
+    image: gabrielltr/dronebackend:0.1.1-SNAPSHOT
+    #build: ./droneBackend/
     depends_on:
-      - db
-      - rabbit
-      - adminer
+      db:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
-      interval: 1m30s
+      interval: 1m10s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      #start_period: 40s
+    command: "echo INICIANDO && curl -f "
     ports:
       - 8090:8090
     environment:
-      SPRING_APPLICATION_JSON:
+      SPRING_APPLICATION_JSON: "{}"
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 987654321
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/droneDB?serverTimezone=UTC

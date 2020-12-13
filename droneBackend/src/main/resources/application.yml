@@ -24,6 +24,21 @@ spring:
       ddl-auto: update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+
+  rabbitmq:
+    host: rabbit
+    port: 5672
+    # User
+    username: guest
+    password: guest
+    # Nome do Exchanges
+    exchange: projeto.mba.fiap
+    # RoutingKey -> Representa A Queue que a Exchange esta enviado
+    routing-key: queue.producer.mba
+    # deadletter para controlle de errros , para poder reprocessar no momento em que a aplicacao for corrigida
+    deadletter: dl.producer.mba.queueDeadLetter
+
+
 management:
   info:
     git:
@@ -31,6 +46,9 @@ management:
   endpoint:
     health:
       show-details: always
+    env:
+      enabled: true
+
 #
 #spring-boot:
 #  build-image:

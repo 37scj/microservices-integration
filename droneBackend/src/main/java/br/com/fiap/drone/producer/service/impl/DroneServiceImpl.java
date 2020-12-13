@@ -1,12 +1,15 @@
 package br.com.fiap.drone.producer.service.impl;
 
+import br.com.fiap.drone.producer.dto.DroneCreateDTO;
 import br.com.fiap.drone.producer.dto.DroneDTO;
 import br.com.fiap.drone.producer.entity.DroneEntity;
 import br.com.fiap.drone.producer.repository.DroneRepository;
 import br.com.fiap.drone.producer.service.DroneService;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,20 +27,24 @@ public class DroneServiceImpl implements DroneService {
      * Cadastrando um drone
      */
     @Override
-    public DroneDTO storeDroneInfo(final DroneDTO droneParameter) {
-        logger.info("Store Drone Info " + droneParameter.getId());
-        DroneEntity newDrone = null;
-        if (droneParameter.getId() != null) {
-            newDrone = droneRepository.findById(droneParameter.getId())
-                    .orElse(newDrone = new DroneEntity());
-            //.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        } else {
-            newDrone = new DroneEntity();
-        }
+    public DroneDTO storeDroneInfo(final DroneCreateDTO droneParameter, final Long id) {
+        logger.info("Store Drone Info " + id);
+        DroneEntity newDrone =
+            Optional.ofNullable(id)
+                    .map((droneId)->droneRepository.findById(droneId)
+                            .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone não encontrado para atualizar")))
+                    .orElse(new DroneEntity());
+//        if (droneParameter.getId() != null) {
+//            newDrone = droneRepository.findById(droneParameter.getId())
+//                    .orElse(newDrone = new DroneEntity());
+//            //.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//        } else {
+//            newDrone = new DroneEntity();
+//        }
 
-        if (droneParameter.getId() != null) {
-            newDrone.setId(droneParameter.getId());
-        }
+//        if (droneParameter.getId() != null) {
+//            newDrone.setId(droneParameter.getId());
+//        }
         if (droneParameter.getNome() != null) {
             newDrone.setNome(droneParameter.getNome());
         }
@@ -53,7 +60,7 @@ public class DroneServiceImpl implements DroneService {
 
         final DroneEntity savedDrone = droneRepository.save(newDrone);
 
-        logger.info("DRONE GRAVADO COM SUCESSO");
+        logger.info("DRONE GRAVADO COM SUCESSO " + newDrone.getId());
 
         return savedDrone.toModel();
 

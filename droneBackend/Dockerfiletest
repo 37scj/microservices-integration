@@ -1,0 +1,30 @@
+#FROM openjdk:11.0.9-jdk AS builder
+#COPY ./* /app/
+#COPY ./.mvn /app/.mvn
+#VOLUME ~/.m2 /root/.m2
+#WORKDIR /app
+#RUN sh mvnw package -T 4
+
+#FROM adoptopenjdk:11-jre-hotspot
+#FROM openjdk:11.0.9-jre
+#RUN adduser --system --group spring
+#RUN mkdir -p /app && chown spring.spring /app
+#WORKDIR /app
+#USER spring:spring
+#COPY --from=builder dependencies/ ./
+#COPY --from=builder snapshot-dependencies/ ./
+#COPY --from=builder spring-boot-loader/ ./
+#COPY --from=builder application/ ./
+#ENV SPRING_DATASOURCE_USERNAME=root
+#ENV SPRING_DATASOURCE_PASSWORD=root
+#ENV SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/droneDB?serverTimezone=UTC
+#ENTRYPOINT ["java", "-cp", "", "br.com.fiap.DroneBackendApplication"]
+
+#FROM openjdk:11.0.9-jre as worker
+#RUN adduser --system --group spring
+#USER spring:spring
+#ARG DEPENDENCY=target/dependency
+#COPY --from=builder ${DEPENDENCY}/BOOT-INF/lib /app/lib
+#COPY --from=builder ${DEPENDENCY}/META-INF /app/META-INF
+#COPY --from=builder ${DEPENDENCY}/BOOT-INF/classes /app
+#ENTRYPOINT ["java","-cp","app:app/lib/*","br.com.fiap.DroneBackendApplication"]

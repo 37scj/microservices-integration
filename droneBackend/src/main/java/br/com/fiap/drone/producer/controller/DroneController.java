@@ -1,16 +1,21 @@
 package br.com.fiap.drone.producer.controller;
 
+import br.com.fiap.drone.producer.dto.DroneCreateDTO;
 import br.com.fiap.drone.producer.dto.DroneDTO;
 import br.com.fiap.drone.producer.service.DroneService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@Api(tags = "Drone")
 @RequestMapping("drones")
 public class DroneController {
 
@@ -20,25 +25,24 @@ public class DroneController {
     /**
      * Cadastrar drone
      *
-     * @param drone
-     * @return
+     * @param drone Dados do drone
+     * @return drone com resultado que foi gravado
      */
     @ApiOperation(value = "Cria um novo drone")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public DroneDTO addDrone(@RequestBody DroneDTO drone) {
-        drone.setId(null);
-        return droneService.storeDroneInfo(drone);
+    public DroneDTO addDrone(@RequestBody DroneCreateDTO drone) {
+        return droneService.storeDroneInfo(drone, null);
     }
 
     @ApiOperation(value = "Atualiza informações do drone")
-    @PatchMapping
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public DroneDTO patchDrone(@RequestBody DroneDTO drone) {
-        if (drone.getId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Necessário ID do Drone");
-        }
-        return droneService.storeDroneInfo(drone);
+    public DroneDTO patchDrone(@PathVariable Long id, @RequestBody DroneCreateDTO drone) {
+        Optional.ofNullable(id).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST, "Necessário ID para Drone"));
+        Optional.ofNullable(drone).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST, "Necessário ID para Drone"));
+
+        return droneService.storeDroneInfo(drone, id);
     }
 
     /**

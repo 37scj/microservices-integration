@@ -1,5 +1,35 @@
-# WEBSERVICES-RESTFUL-TECHNOLOGIES
+# Microservices integration 
+- REST
+- RabbitMQ
+- ReactJs
 
+# Start Up docker things
+
+## start docker 
+
+### Portainer (management) as stack or compose (local)
+
+Stack for Swarm: 
+```shell
+cd portainer
+docker stack deploy -c portainer-agent-stack.yml portainer
+```
+
+Local compose:
+```shell
+cd portainer
+docker-compose up -d
+```
+
+When ready you can access portainer by URL http://localhost:9000
+
+## Drone Stack
+
+### Start with docker compose
+
+```shell
+docker-compose up
+```
 
 # Documentação 
 
@@ -9,14 +39,4 @@
 # Base de dados H2
  - H2 Console  http://localhost:8090/h2-console
     - jdbc:h2:~/fiapstockdatabase;DB_CLOSE_ON_EXIT=FALSE
-    
-    
-# Adicionando pre-drones na aplicação :
 
-- Pre-adicionando drones na base
-  - Altere na properties.yml a propriedade ddl-auto do hibernate para criar as tabela automaticamente para : create-drop 
-  - Crie um arquivo "data.sql" dentro de : /src/main/resources
-  - Passe a seguinte instrução no arquivo data.sql: 
-                 
-        insert into tb_drone (latitude, longitude, nome, temperatura, tracking, umidade, id) 
-                values (123213.0, 3213123.0,'Drone',-1.6, false, 25.3, 1);

@@ -1,10 +1,66 @@
-version: '3.8'
+version: '3.1'
+
 services:
+
   rabbit:
     image: rabbitmq:3-management
     ports:
       - 15672:15672
       - 5672:5672
-#    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
+    #    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
     volumes:
-    - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+      # - db_scripts/create-db.sql:/docker-entrypoint-initdb.d/001_create-db.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: 987654321
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: fiappass
+      MYSQL_DATABASE: droneDB
+    networks:
+      - ms_network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    networks:
+      - ms_network
+
+  drone:
+    image: gabrielltr/dronebackend
+#    build: ./droneBackend/
+    depends_on:
+      - db
+      - rabbit
+      - adminer
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    ports:
+      - 8090:8090
+    environment:
+      SPRING_APPLICATION_JSON:
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 987654321
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/droneDB?serverTimezone=UTC
+    networks:
+      - ms_network
+
+volumes:
+  db-data:
+
+networks:
+  ms_network:

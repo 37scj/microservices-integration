@@ -1,17 +1,17 @@
-version: '3.8'
+version: '3.7'
 
 services:
 
   rabbit:
     image: rabbitmq:3-management
-    ports:
-      - 15672:15672
-      - 5672:5672
-    healthcheck:
+    #ports:
+      #- 15672:15672
+      #- 5672:5672
+    #healthcheck:
 #      test: [ "CMD", "rabbitmqctl" ,"node_health_check" ]
-      test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
-      timeout: 50s
-      retries: 10
+      #test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
+      #timeout: 50s
+      #retries: 10
     #    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
     volumes:
       - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
@@ -21,7 +21,6 @@ services:
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
     ports:
       - 3306:3306
     volumes:
@@ -36,19 +35,22 @@ services:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
     networks:
       - ms_network
 
   adminer:
     image: adminer
-    restart: always
     ports:
       - 8081:8080
     networks:
       - ms_network
 
   drone:
-    image: gabrielltr/dronebackend:0.1.1-SNAPSHOT
+    image: gabrielltr/dronebackend:$MS_VERSION
     #build: ./droneBackend/
     depends_on:
       - db
@@ -59,7 +61,9 @@ services:
       timeout: 10s
       retries: 3
       #start_period: 40s
-    command: "echo INICIANDO && curl -f "
+    #command: "echo INICIANDO && curl -f "
+    deploy:
+      replicas: 2
     ports:
       - 8090:8090
     environment:
@@ -71,12 +75,12 @@ services:
       - ms_network
 
   icc-react-web-app:
-    image: gabrielltr/icc-react-web-app:0.1.0
-    build: ./icc-react-web-app/
+    image: gabrielltr/icc-react-web-app:${WEB_VERSION}
+    #build: ./icc-react-web-app/
     ports:
       - 80:80
     environment:
-      REACT_APP_GMAPSKEY: AIzaSyAet8Mk1nPvOn_AebLE5ZxXoGejOD8tPzA
+      REACT_APP_GMAPSKEY: $${${REACT_APP_GMAPSKEY}:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
 volumes:
   db-data:
 

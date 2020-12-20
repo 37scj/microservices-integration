@@ -10,9 +10,7 @@
   "author": "Gabriel Ribeiro",
   "license": "ISC",
   "dependencies": {
-    "amqplib": "^0.6.0"
-  },
-  "devDependencies": {
+    "amqplib": "^0.6.0",
     "watch": "^1.0.2"
   }
 }

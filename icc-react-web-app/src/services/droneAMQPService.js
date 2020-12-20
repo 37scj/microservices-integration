@@ -1,13 +1,13 @@
 var amqp = require('amqplib');
 
-export const sendDrone=(drone)=> {
+function sendDrone(drone) {
+
+    const msg = JSON.stringify(drone);
 
     const sendMessage = function (ch) {
 
         const q = 'queue.producer.mba';
         const ex = 'projeto.mba.fiap';
-
-        const msg = JSON.stringify(drone);
 
         var ok = ch.assertExchange(ex, 'direct', {
             durable: true
@@ -27,12 +27,19 @@ export const sendDrone=(drone)=> {
         });
     };
 
-    amqp.connect('amqp://localhost:5672').then(function (conn) {
+    return new Promise((resolve, reject)=>
+        amqp.connect('amqp://localhost:5672').then(function (conn) {
         return conn.createChannel()
             .then(sendMessage)
             .finally(function () {
                 conn.close();
+                resolve(msg);
             });
-    }).catch(console.warn);
+    }).catch(err=>{
+        console.warn(err);
+        reject(err);
+    }));
 
-}
+};
+
+export default { sendDrone }

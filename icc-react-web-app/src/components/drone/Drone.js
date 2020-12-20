@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Switch, FormControlLabel, Slider, Typography, Grid, FormLabel, Container, Input, InputLabel, Button } from '@material-ui/core';
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Container, FormLabel, Grid, Slider} from '@material-ui/core';
 import droneService from '../../services/droneService';
+import droneAMQPService from '../../services/droneAMQPService';
 import style from './drone.module.css';
 
 export default (props) => {
@@ -11,8 +12,9 @@ export default (props) => {
         longitude: useFormInput(props.longitude ? props.longitude : -46.625290),
         temperatura: useFormInput(props.temperatura ? props.temperatura : 0),
         umidade: useFormInput(props.umidade ? props.umidade : 60),
-        tracking: useFormInput((props.tracking !== null || props.tracking !== undefined) ? props.tracking : true),
-    }
+        tracking: useFormInput((props.tracking !== null || true) ? props.tracking : true),
+    };
+
     function setDrone(d) {
         if ((!d || !d.id) && props.fetchDrones) {
             props.fetchDrones();
@@ -26,11 +28,12 @@ export default (props) => {
         drone.umidade.onChange(0, d.umidade);
         drone.tracking.onChange(0, d.tracking);
     }
+
     function useFormInput(initialValue) {
         const [value, setValue] = useState(initialValue)
         const onChange = (e, newValue) => {
             let v = null;
-            if (newValue != null || newValue != undefined) {
+            if (newValue !== null || true) {
                 v = newValue;
             } else {
                 v = (e.target.value);
@@ -43,15 +46,15 @@ export default (props) => {
         }
     }
 
-    let updating = false;
+    let updating = useRef(false);
     useEffect(() => {
-        if (updating) {
-            clearTimeout(updating);
-            updating = false;
+        if (updating.current) {
+            clearTimeout(updating.current);
+            updating.current = false;
             console.log('clear')
         }
-        updating = setTimeout(() => updateDrone(), 500);
-        return () => clearTimeout(updating);
+        updating.current = setTimeout(() => this.updateDrone(), 500);
+        return () => clearTimeout(updating.current);
     }, [drone]);
 
     function updateDrone() {
@@ -69,8 +72,7 @@ export default (props) => {
         };
 
         console.log('set to update', droneSave.id, droneSave);
-
-        droneService.saveDrone(droneSave)
+        droneAMQPService.sendDrone(droneSave)
             .then(r => r.json())
             .then(ret => console.log('saved', ret))
             .catch(error => console.log(error));
@@ -105,60 +107,63 @@ export default (props) => {
 
     // container xs={12} spacing={1} className={style.drone} alignContent="center" justify="space-between" alignItems="center"
     return (<React.Fragment>
-        <Grid item xs={12} className={style.dronetitle}>
-            <label style={{ color: 'white' }}>Drone ID {drone.id.value}</label>
-        </Grid>
-        <Container maxWidth="lg" style={{ minwidth: '200px' }} className={style.drone}>
-            <Grid className="MuiInputBase-root MuiInput-root MuiInput-underline">
-                <FormLabel>Nome</FormLabel>
-                <input className="MuiInputBase-input MuiInput-input" label="Name" aria-label="Drone name" {...drone.nome} />
+            <Grid item xs={12} className={style.dronetitle}>
+                <label style={{color: 'white'}}>Drone ID {drone.id.value}</label>
             </Grid>
-            <Grid container item={true} xs={12} className="MuiInputBase-root MuiInput-root MuiInput-underline">
-                <FormLabel>Latitude</FormLabel>
-                <input className="MuiInputBase-input MuiInput-input" {...drone.latitude} />
-            </Grid>
-            <Grid container item={true} xs={12} alignContent="stretch" className="MuiInputBase-root MuiInput-root MuiInput-underline">
-                <FormLabel>Longitude</FormLabel>
-                <input className="MuiInputBase-input MuiInput-input" {...drone.longitude} />
-            </Grid>
-            <Grid container item={true} xs={12} alignItems="center" className="MuiInputBase-root MuiInput-root MuiInput-underline">
-                <FormLabel>Temperature</FormLabel>
-                <input className="MuiInputBase-input MuiInput-input" {...drone.temperatura} />
-                <Slider
-                    {...drone.temperatura}
-                    step={0.1} min={-25} max={40}
-                    marks={[-12, 0, 12, 22, 32]}
-                    valueLabelDisplay="auto"
-                    valueLabelFormat={v => v + '°C'}
-                    getAriaValueText={() => drone.temperatura.value}
-                />
-            </Grid>
-            <Grid item={true} xs={12} className="MuiInputBase-root MuiInput-root MuiInput-underline">
-                <FormLabel>Umidade</FormLabel>
-                <input className="MuiInputBase-input MuiInput-input" {...drone.umidade} />
-                <Slider
-                    {...drone.umidade}
-                    labelplacement="start"
-                    step={0.1} min={0} max={100}
-                    marks={[10, 20, 30, 40, 50, 60, 70, 80, 90]}
-                    valueLabelDisplay="auto"
-                    valueLabelFormat={v => drone.umidade.value + '%'}
-                    getAriaValueText={() => drone.umidade.value}
-                />
-            </Grid>
-            {/* <Grid container item={true} xs={12} spacing={1}>
+            <Container maxWidth="lg" style={{minwidth: '200px'}} className={style.drone}>
+                <Grid className="MuiInputBase-root MuiInput-root MuiInput-underline">
+                    <FormLabel>Nome</FormLabel>
+                    <input className="MuiInputBase-input MuiInput-input" label="Name"
+                           aria-label="Drone name" {...drone.nome} />
+                </Grid>
+                <Grid container item={true} xs={12} className="MuiInputBase-root MuiInput-root MuiInput-underline">
+                    <FormLabel>Latitude</FormLabel>
+                    <input className="MuiInputBase-input MuiInput-input" {...drone.latitude} />
+                </Grid>
+                <Grid container item={true} xs={12} alignContent="stretch"
+                      className="MuiInputBase-root MuiInput-root MuiInput-underline">
+                    <FormLabel>Longitude</FormLabel>
+                    <input className="MuiInputBase-input MuiInput-input" {...drone.longitude} />
+                </Grid>
+                <Grid container item={true} xs={12} alignItems="center"
+                      className="MuiInputBase-root MuiInput-root MuiInput-underline">
+                    <FormLabel>Temperature</FormLabel>
+                    <input className="MuiInputBase-input MuiInput-input" {...drone.temperatura} />
+                    <Slider
+                        {...drone.temperatura}
+                        step={0.1} min={-25} max={40}
+                        marks={[-12, 0, 12, 22, 32]}
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={v => v + '°C'}
+                        getAriaValueText={() => drone.temperatura.value}
+                    />
+                </Grid>
+                <Grid item={true} xs={12} className="MuiInputBase-root MuiInput-root MuiInput-underline">
+                    <FormLabel>Umidade</FormLabel>
+                    <input className="MuiInputBase-input MuiInput-input" {...drone.umidade} />
+                    <Slider
+                        {...drone.umidade}
+                        labelplacement="start"
+                        step={0.1} min={0} max={100}
+                        marks={[10, 20, 30, 40, 50, 60, 70, 80, 90]}
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={v => drone.umidade.value + '%'}
+                        getAriaValueText={() => drone.umidade.value}
+                    />
+                </Grid>
+                {/* <Grid container item={true} xs={12} spacing={1}>
                 <FormControlLabel
                     control={<Switch {...drone.tracking} />}
                     labelPlacement="start" label="Tracking"
                 />
             </Grid> */}
-            <Grid container item={true} justify="space-evenly" xs={12}>
-                <Button danger="true" onClick={() => deleteDrone()}>Excluir</Button>
-                <Button primary="true" onClick={() => updateDrone()}>Salvar</Button>
-                <Button primary="true" onClick={() => fetchDrone()}>Buscar</Button>
-            </Grid>
-        </Container>
-    </React.Fragment>
+                <Grid container item={true} justify="space-evenly" xs={12}>
+                    <Button danger="true" onClick={() => deleteDrone()}>Excluir</Button>
+                    <Button primary="true" onClick={() => updateDrone()}>Salvar</Button>
+                    <Button primary="true" onClick={() => fetchDrone()}>Buscar</Button>
+                </Grid>
+            </Container>
+        </React.Fragment>
     );
 
 }

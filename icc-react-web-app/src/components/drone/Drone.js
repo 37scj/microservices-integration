@@ -51,9 +51,9 @@ export default (props) => {
         if (updating.current) {
             clearTimeout(updating.current);
             updating.current = false;
-            console.log('clear')
+            console.log('clear');
         }
-        updating.current = setTimeout(() => this.updateDrone(), 500);
+        updating.current = setTimeout(() => updateDrone(), 500);
         return () => clearTimeout(updating.current);
     }, [drone]);
 

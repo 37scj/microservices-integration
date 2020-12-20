@@ -4,15 +4,16 @@ services:
 
   rabbit:
     image: rabbitmq:3-management
-    #ports:
-      #- 15672:15672
-      #- 5672:5672
-    #healthcheck:
+    ports:
+      - 15672:15672
+      - 5672:5672
+    healthcheck:
 #      test: [ "CMD", "rabbitmqctl" ,"node_health_check" ]
-      #test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
-      #timeout: 50s
-      #retries: 10
+      test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
+      timeout: 1m
+      retries: 10
     #    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
+#    command: rabbitmq-plugins enable --offline rabbitmq_management rabbitmq_mqtt rabbitmq_stomp rabbitmq_shovel rabbitmq_shovel_management
     volumes:
       - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
     networks:
@@ -49,8 +50,29 @@ services:
     networks:
       - ms_network
 
+  producer:
+    image: gabrielltr/droneproducer:latest
+    depends_on:
+      - db
+      - rabbit
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8020/actuator/health" ]
+      interval: 1m10s
+      timeout: 10s
+      retries: 3
+      #start_period: 40s
+    ports:
+      - 8020:8020
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_ROUTING-KEY: br.com.fiap.mba.drone
+      DRONE_URL_UPDATE: http://drone:8090
+    networks:
+      - ms_network
+
   drone:
-    image: gabrielltr/dronebackend:$MS_VERSION
+    image: gabrielltr/dronebackend:latest
     #build: ./droneBackend/
     depends_on:
       - db
@@ -61,26 +83,28 @@ services:
       timeout: 10s
       retries: 3
       #start_period: 40s
-    #command: "echo INICIANDO && curl -f "
-    deploy:
-      replicas: 2
     ports:
       - 8090:8090
     environment:
-      SPRING_APPLICATION_JSON: "{}"
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 987654321
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/droneDB?serverTimezone=UTC
     networks:
       - ms_network
 
-  icc-react-web-app:
-    image: gabrielltr/icc-react-web-app:${WEB_VERSION}
-    #build: ./icc-react-web-app/
+  webapp:
+    image: gabrielltr/icc-react-web-app:latest
+#    build: ./icc-react-web-app/
     ports:
       - 80:80
+      - 443:443
     environment:
-      REACT_APP_GMAPSKEY: $${${REACT_APP_GMAPSKEY}:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
+      MS_ENDPOINT: http://localhost:8090
+#      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
+#      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
+
+# TODO adicionar container stopped do node para movimentar os drones
+
 volumes:
   db-data:
 

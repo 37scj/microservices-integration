@@ -96,14 +96,14 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>docker.io/gabrielltr/${project.artifactId}:${project.version}</name>
+                        <name>docker.io/gabrielltr/${project.artifactId}:latest</name>
 <!--                        <cleanCache>true</cleanCache>-->
                         <env>
                             <SPRING_DATASOURCE_USER>root</SPRING_DATASOURCE_USER>
                             <SPRING_DATASOURCE_PASSWORD>root</SPRING_DATASOURCE_PASSWORD>
                             <SPRING_DATASOURCE_URL>jdbc://mysql</SPRING_DATASOURCE_URL>
                         </env>
-                        <publish>true</publish>
+                        <publish>false</publish>
                     </image>
                     <layers>
                         <enabled>true</enabled>

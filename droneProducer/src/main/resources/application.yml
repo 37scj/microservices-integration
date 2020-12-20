@@ -1,0 +1,24 @@
+server:
+  port: 8020
+  # Interface : localhost:15672
+  # Rabbit Servidor
+  
+drone:
+  url:
+    updateInformation: http://localhost:8090/drones/
+
+spring:  
+  rabbitmq:
+    host: localhost
+    port: 5672
+    # User
+    username: guest
+    password: guest
+    # Nome do Exchanges
+    exchange: projeto.mba.fiap
+    # RoutingKey -> Representa A Queue que a Exchange esta enviado
+    routing-key: queue.producer.mba
+    # deadletter para controlle de errros , para poder reprocessar no momento em que a aplicacao for corrigida
+    deadletter: dl.producer.mba.queueDeadLetter
+# deadletter para controlle de errros , para poder reprocessar no momento em que a aplicacao for corrigida
+

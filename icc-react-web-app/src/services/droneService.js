@@ -1,7 +1,7 @@
 //import React from 'react';
 const fetch = require("isomorphic-fetch");
 const isDebug = true;
-const urlBaseBackend = 'http://localhost:8090';
+const urlBaseBackend = process.env.MS_ENDPOINT?process.env.MS_ENDPOINT:'http://localhost:8090';
 const headers = {
   'Accept': 'application/json, text/plain',
   'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ function deleteDrone(id) {
  * @param {Drone} drone 
  */
 function saveDrone(drone) {
-  const url = `${urlBaseBackend}/drones`;
+  const url = `${urlBaseBackend}/drones/${drone.id}`;
   return fetch(url, {
     method: 'PATCH',
     headers: headers,

@@ -9,12 +9,13 @@ import {
 import { MarkerClusterer } from "react-google-maps/lib/components/addons/MarkerClusterer"
 
 const key = process.env.REACT_APP_GMAPSKEY;
+console.log('REACT_APP_GMAPSKEY', key);
 
 const MapWithMarkers = compose(
     withProps({
         googleMapURL: "https://maps.googleapis.com/maps/api/js?key=" + key + "&v=3.exp&libraries=geometry,drawing,places",
-        loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `600px` }} />,
+        loadingElement: <div style={{ backgroundColor:'green',height: '100%'}}/>,
+        containerElement: <div style={{ 'height': '600px' }} />,
         mapElement: <div style={{ height: `100%` }} />,
     }),
     withHandlers({

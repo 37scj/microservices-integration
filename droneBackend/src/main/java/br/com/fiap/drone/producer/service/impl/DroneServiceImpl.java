@@ -57,10 +57,13 @@ public class DroneServiceImpl implements DroneService {
         if (droneParameter.getTemperatura() != null) {
             newDrone.setTemperatura(droneParameter.getTemperatura());
         }
+        if (droneParameter.getUmidade() != null) {
+            newDrone.setUmidade(droneParameter.getUmidade());
+        }
 
         final DroneEntity savedDrone = droneRepository.save(newDrone);
 
-        logger.info("DRONE GRAVADO COM SUCESSO " + newDrone.getId());
+        logger.info("DRONE GRAVADO COM SUCESSO " + newDrone.toString());
 
         return savedDrone.toModel();
 

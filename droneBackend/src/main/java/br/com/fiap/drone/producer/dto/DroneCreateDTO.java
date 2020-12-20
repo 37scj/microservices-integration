@@ -12,6 +12,7 @@ public class DroneCreateDTO implements Serializable {
     private Double latitude = 0d;
     private Double longitude = 0d;
     private Double temperatura = 0d;
+    private Double umidade = 0d;
 
     public DroneCreateDTO(){
         //for serializer
@@ -22,6 +23,7 @@ public class DroneCreateDTO implements Serializable {
         this.setLatitude(drone.getLatitude());
         this.setLongitude(drone.getLongitude());
         this.setTemperatura(drone.getTemperatura());
+        this.setUmidade(drone.getUmidade());
     }
 
     public String getNome() {
@@ -56,4 +58,11 @@ public class DroneCreateDTO implements Serializable {
         this.temperatura = temperatura;
     }
 
+    public Double getUmidade() {
+        return umidade;
+    }
+
+    public void setUmidade(Double umidade) {
+        this.umidade = umidade;
+    }
 }

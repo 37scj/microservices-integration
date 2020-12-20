@@ -9,5 +9,6 @@ create table tb_drone
     latitude    double       null,
     longitude   double       null,
     nome        varchar(255) null,
-    temperatura double       null
+    temperatura double       null,
+    umidade     double       null
 );

@@ -67,7 +67,7 @@ services:
       SPRING_RABBITMQ_HOST: rabbit
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_ROUTING-KEY: br.com.fiap.mba.drone
-      DRONE_URL_UPDATE: http://drone:8090
+      DRONE_URL_UPDATE: http://drone:8090/drones/%d
     networks:
       - ms_network
 

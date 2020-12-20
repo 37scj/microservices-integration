@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.6.0"
+  },
+  "devDependencies": {
+    "watch": "^1.0.2"
   }
 }

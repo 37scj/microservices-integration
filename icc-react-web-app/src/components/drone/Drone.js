@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Button, Container, FormLabel, Grid, Slider} from '@material-ui/core';
 import droneService from '../../services/droneService';
 import droneAMQPService from '../../services/droneAMQPService';
@@ -47,17 +47,8 @@ export default (props) => {
     }
 
     let updating = useRef(false);
-    useEffect(() => {
-        if (updating.current) {
-            clearTimeout(updating.current);
-            updating.current = false;
-            console.log('clear')
-        }
-        updating.current = setTimeout(() => this.updateDrone(), 500);
-        return () => clearTimeout(updating.current);
-    }, [drone]);
 
-    function updateDrone() {
+    const updateDrone = () => {
         if (drone.id && !drone.id.value) {
             throw new Error("Drone sem ID");
         }
@@ -78,6 +69,18 @@ export default (props) => {
             .catch(error => console.log(error));
 
     };
+    const updateDroneCallback = useCallback(updateDrone);
+
+
+    useEffect(() => {
+        if (updating.current) {
+            clearTimeout(updating.current);
+            updating.current = false;
+            console.log('clear');
+        }
+        updating.current = setTimeout(updateDroneCallback, 500);
+        return () => clearTimeout(updating.current);
+    }, [drone, updateDroneCallback]);
 
     function deleteDrone() {
         if (drone.id) {

@@ -2,10 +2,10 @@ server:
   port: 8020
   # Interface : localhost:15672
   # Rabbit Servidor
-  
+
 drone:
   url:
-    updateInformation: http://localhost:8090/drones/
+    update: http://localhost:8090/drones/%d
 
 spring:  
   rabbitmq:

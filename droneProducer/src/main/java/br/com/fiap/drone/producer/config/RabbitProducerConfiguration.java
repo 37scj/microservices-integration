@@ -1,13 +1,16 @@
 package br.com.fiap.drone.producer.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import br.com.fiap.drone.producer.service.ListenerRabbit;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.sound.midi.Receiver;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,9 +26,15 @@ import java.util.Map;
 @Configuration
 public class RabbitProducerConfiguration {
 
+    /**
+     * nome da fila para rotear mensagens
+     */
     @Value("${spring.rabbitmq.routing-key}")
-    private String queue;
+    private String routingKey;
 
+    /**
+     * nome do grupo de troca de mensagens
+     */
     @Value("${spring.rabbitmq.exchange}")
     private String exchange;
 
@@ -73,12 +82,13 @@ public class RabbitProducerConfiguration {
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", exchange);
         args.put("x-dead-letter-routing-key", deadletter);
-        return new Queue(queue, true, false, false, args);
+        return new Queue(routingKey, true, false, false, args);
     }
 
+
     @Bean
-    public Binding bindingQueue() {
-        return BindingBuilder.bind(queue()).to(exchange()).with(queue);
+    public Binding bindingQueue(Queue queue, DirectExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 
     /**
@@ -87,9 +97,8 @@ public class RabbitProducerConfiguration {
      * @return
      */
     @Bean
-    public Binding bindingQueueDeadLetter() {
-        return BindingBuilder.bind(deadLetter()).to(exchange()).with(deadletter);
+    public Binding bindingQueueDeadLetter(Queue deadLetter, DirectExchange exchange) {
+        return BindingBuilder.bind(deadLetter).to(exchange).with(deadletter);
     }
-
 
 }

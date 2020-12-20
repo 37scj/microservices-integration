@@ -1,5 +1,7 @@
 package br.com.fiap.drone.producer.config;
 
+import br.com.fiap.DroneProducerApplication;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -61,6 +63,11 @@ public class RabbitConfiguration {
                 .json()
                 .modules(new JavaTimeModule())
                 .dateFormat(new StdDateFormat())
+                .failOnUnknownProperties(false)
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+                .serializationInclusion(JsonInclude.Include.NON_DEFAULT)
+                .moduleClassLoader(DroneProducerApplication.class.getClassLoader())
                 .build();
         return new Jackson2JsonMessageConverter(mapper);
 

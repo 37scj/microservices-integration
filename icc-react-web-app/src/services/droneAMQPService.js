@@ -1,45 +1,58 @@
-var amqp = require('amqplib');
+//import React from 'react';
+const fetch = require("isomorphic-fetch");
+const isDebug = true;
+const urlBaseBackend = process.env.MS_ENDPOINT?process.env.MS_ENDPOINT:'http://localhost:8020';
 
-function sendDrone(drone) {
+const headers = {
+  'Accept': 'application/json, text/plain',
+  'Content-Type': 'application/json'
+}
 
-    const msg = JSON.stringify(drone);
+/**
+ * Simula o envio de dados do drone. Atualiza os dados
+ * @param {Drone} drone 
+ */
+function sendDroneRabbitMQ(drone) {
+    const url = `${urlBaseBackend}/send`;
+    return fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(drone)
+  
+    }).then(a => {
+      if (isDebug) console.log(url, a);
+      return a;
+    });
+  }
 
-    const sendMessage = function (ch) {
+  export default { sendDroneRabbitMQ }
 
-        const q = 'queue.producer.mba';
-        const ex = 'projeto.mba.fiap';
 
-        var ok = ch.assertExchange(ex, 'direct', {
-            durable: true
-        });
 
-        return ok.then(function (_qok) {
-            // NB: `sentToQueue` and `publish` both return a boolean
-            // indicating whether it's OK to send again straight away, or
-            // (when `false`) that you should wait for the event `'drain'`
-            // to fire before writing again. We're just doing the one write,
-            // so we'll ignore it.
 
-            let r = ch.publish(ex, q, Buffer.from(msg));
-            console.log(" [x] Sent %s:'%s'", 'info', msg, r);
 
-            return ch.close();
-        });
-    };
+// const fetch = require("isomorphic-fetch");
+// const urlAMQP = 'http://localhost:15672/api/exchanges/%2f/projeto.mba.fiap/publish';
 
-    return new Promise((resolve, reject)=>
-        amqp.connect('amqp://localhost:5672').then(function (conn) {
-        return conn.createChannel()
-            .then(sendMessage)
-            .finally(function () {
-                conn.close();
-                resolve(msg);
-            });
-    }).catch(err=>{
-        console.warn(err);
-        reject(err);
-    }));
+// function sendDrone(drone){
 
-};
+//         var myHeaders = new Headers();
+//         myHeaders.append("Authorization", "Basic Z3Vlc3Q6Z3Vlc3Q=");
+//         myHeaders.append("Content-Type", "application/json");
 
-export default { sendDrone }
+//         var raw = JSON.stringify({"properties":{},
+//                                 "routing_key":"queue.producer.mba",
+//                                 "payload":JSON.stringify(drone),
+//                                 "payload_encoding":"string"});
+
+//         var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         body: raw,
+//         redirect: 'follow'
+//         };
+
+//     return fetch(urlAMQP, requestOptions)
+// }
+
+// export default {sendDrone}

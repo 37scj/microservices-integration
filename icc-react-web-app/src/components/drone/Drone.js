@@ -63,7 +63,7 @@ export default (props) => {
         };
 
         console.log('set to update', droneSave.id, droneSave);
-        droneAMQPService.sendDrone(droneSave)
+        droneAMQPService.sendDroneRabbitMQ(droneSave)
             .then(r => r.json())
             .then(ret => console.log('saved', ret))
             .catch(error => console.log(error));

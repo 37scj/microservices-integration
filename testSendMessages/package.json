@@ -1,0 +1,15 @@
+{
+  "name": "testsendmessages",
+  "version": "1.0.0",
+  "description": "Executar testes de envio de atualizações de informação",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "watch -n 1 node index.js"
+  },
+  "author": "Gabriel Ribeiro",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.6.0"
+  }
+}

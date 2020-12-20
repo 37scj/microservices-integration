@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "drone.url.update",
+      "type": "java.lang.String",
+      "description": "URL for patching drone by ID. URL must contain %d at the place with drone id. http://localhost:8090/drones/%d "
+    },
+  ]
+}

@@ -102,6 +102,8 @@ services:
       MS_ENDPOINT: http://localhost:8090
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
+    networks:
+      - ms_network
 
 # TODO adicionar container stopped do node para movimentar os drones
 

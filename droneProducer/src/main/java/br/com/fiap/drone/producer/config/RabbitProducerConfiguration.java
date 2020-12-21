@@ -1,16 +1,10 @@
 package br.com.fiap.drone.producer.config;
 
-import br.com.fiap.drone.producer.service.ListenerRabbit;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sound.midi.Receiver;
 import java.util.HashMap;
 import java.util.Map;
 

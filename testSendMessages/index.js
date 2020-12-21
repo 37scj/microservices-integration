@@ -2,13 +2,6 @@
 
 var amqp = require('amqplib');
 
-var args = process.argv.slice(2);
-var severity = (args.length > 0) ? args[0] : 'info';
-
-// function getRandomArbitrary(min, max) {
-//     return Math.random() * (max - min) + min;
-// }
-
 const rnd = (min, max, digits = 8) => Math.round(
     (Math.random() * (max - min) + min) * Math.pow(10, digits)) / Math.pow(10, digits);
 const rnd_ceil = (min, max, digits = 2) => {
@@ -16,6 +9,7 @@ const rnd_ceil = (min, max, digits = 2) => {
     max = Math.floor(max);
     return Math.round((Math.random() * (max - min + 1) + min) * Math.pow(10, digits)) / Math.pow(10, digits);
 };
+
 const sendMessage = function (ch) {
     const q = 'queue.producer.mba';
     const ex = 'projeto.mba.fiap';
@@ -32,14 +26,15 @@ const sendMessage = function (ch) {
     });
 
     return ok.then(function (_qok) {
+        console.log(_qok);
         // NB: `sentToQueue` and `publish` both return a boolean
         // indicating whether it's OK to send again straight away, or
         // (when `false`) that you should wait for the event `'drain'`
         // to fire before writing again. We're just doing the one write,
         // so we'll ignore it.
         msgs.forEach(msg=>{
-            let r=ch.publish(ex, q, Buffer.from(msg))
-            console.log(" [x] Sent %s:'%s'", severity, msg, r);
+            let r=ch.publish(ex, q, Buffer.from(msg));
+            console.log(" [x] Sent %s:'%s'", msg, r);
         });
         return ch.close();
     });

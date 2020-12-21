@@ -1,4 +1,4 @@
-package br.com.fiap.drone.producer.service;
+package br.com.fiap.drone.producer.listeners;
 
 import br.com.fiap.drone.producer.dto.DroneCreateDTO;
 import br.com.fiap.drone.producer.dto.DroneDTO;

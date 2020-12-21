@@ -2,12 +2,11 @@ package br.com.fiap.drone.producer.controller;
 
 import br.com.fiap.drone.producer.dto.DroneCreateDTO;
 import br.com.fiap.drone.producer.dto.DroneDTO;
-import br.com.fiap.drone.producer.service.DroneService;
+import br.com.fiap.drone.producer.listeners.DroneService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 

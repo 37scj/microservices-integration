@@ -7,6 +7,7 @@ const headers = {
   'Accept': 'application/json, text/plain',
   'Content-Type': 'application/json'
 }
+const opts = { mode: 'no-cors'};
 
 // mode: 'no-cors', // 'cors' by default
 function getAllDrones() {
@@ -14,7 +15,7 @@ function getAllDrones() {
   return fetch(url, {
     method: 'GET',
     headers: headers,
-  }).then(a => {
+  }, opts).then(a => {
     if (isDebug) console.log(url, a);
     return a;
   });
@@ -25,7 +26,7 @@ function getDrone(id) {
   return fetch(url, {
     method: 'GET',
     headers: headers,
-  }).then(a => {
+  }, opts).then(a => {
     if (isDebug) console.log(url, a);
     return a;
   });
@@ -35,7 +36,7 @@ function deleteDrone(id) {
   return fetch(url, {
     method: 'DELETE',
     headers: headers,
-  }).then(a => {
+  }, opts).then(a => {
     if (isDebug) console.log(url, a);
     return a;
   });
@@ -52,7 +53,7 @@ function saveDrone(drone) {
     headers: headers,
     body: JSON.stringify(drone)
 
-  }).then(a => {
+  }, opts).then(a => {
     if (isDebug) console.log(url, a);
     return a;
   });
@@ -63,8 +64,8 @@ function newDrone(nome) {
   return fetch(url, {
     method: 'POST',
     headers: headers,
-    body: JSON.stringify({ id: 0, nome })
-  }).then(a => {
+    body: JSON.stringify({ id: null, nome })
+  }, opts).then(a => {
     if (isDebug) console.log(url, a);
     return a;
   });

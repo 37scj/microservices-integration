@@ -1,4 +1,4 @@
-package br.com.fiap.drone.producer.service;
+package br.com.fiap.drone.producer.listeners;
 
 import br.com.fiap.drone.producer.models.DroneDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -17,8 +17,7 @@ spring:
     # Nome do Exchanges
     exchange: projeto.mba.fiap
     # RoutingKey -> Representa A Queue que a Exchange esta enviado
-    routing-key: queue.producer.mba
+    routing-key: queue.mba.fiap
     # deadletter para controlle de errros , para poder reprocessar no momento em que a aplicacao for corrigida
-    deadletter: dl.producer.mba.queueDeadLetter
+    deadletter: dl.${spring.rabbitmq.routing-key}
 # deadletter para controlle de errros , para poder reprocessar no momento em que a aplicacao for corrigida
-

@@ -11,7 +11,7 @@ const rnd_ceil = (min, max, digits = 2) => {
 };
 
 const sendMessage = function (ch) {
-    const q = 'queue.producer.mba';
+    const q = 'queue.mba.fiap';
     const ex = 'projeto.mba.fiap';
     const msgs = [1,2,3,4,5,6,7,8,9,10].map(id=> JSON.stringify({
         "id": id,

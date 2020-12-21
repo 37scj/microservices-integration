@@ -78,8 +78,11 @@ this show health of this backend and if there is a rabbit and mysql connection
 
   -  http://localhost:8090/swagger-ui.html
   -  Assista a demonstração em detalhes aqui:
+  
        https://www.loom.com/share/b86948b290b8490c9c44e98019f11f91
        https://www.loom.com/share/30e400ed77334ea288f9bafebb6d4580
+       https://www.loom.com/share/8edf32012d624960898af84f86e10149
+       
   
 ---
 # Using swarm

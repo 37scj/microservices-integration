@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "watch -n 1 node index.js"
+    "start": "watch -n 3 node index.js"
   },
   "author": "Gabriel Ribeiro",
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.6.0"
+  },
+  "repository": {
+    "directory": "./dist"
   }
 }

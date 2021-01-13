@@ -3,19 +3,22 @@ version: '3.7'
 services:
 
   rabbit:
-    image: rabbitmq:3-management
+    image: gabrielltr/rabbitmq:3-management
+    build: ./rabbit
     ports:
+      - 1883:1883
+      - 61613:61613
       - 15672:15672
       - 5672:5672
-    healthcheck:
-#      test: [ "CMD", "rabbitmqctl" ,"node_health_check" ]
-      test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
-      timeout: 1m
-      retries: 10
+#    healthcheck:
+##      test: [ "CMD", "rabbitmqctl" ,"node_health_check" ]
+#      test: ["CMD", "rabbitmq-diagnostics", "check_running", "--timeout", "10"]
+#      timeout: 1m
+#      retries: 10
     #    command: rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management
 #    command: rabbitmq-plugins enable --offline rabbitmq_management rabbitmq_mqtt rabbitmq_stomp rabbitmq_shovel rabbitmq_shovel_management
-    volumes:
-      - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
+#    volumes:
+#      - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
     networks:
       - ms_network
 
@@ -105,6 +108,19 @@ services:
       - ms_network
 
 # TODO adicionar container stopped do node para movimentar os drones
+
+  test:
+    image: gabrielltr/testnode:rabbit
+    build: ./testSendMessages
+    restart: 'no'
+    depends_on:
+      - rabbit
+    labels:
+      - test
+    environment:
+      NODE_RABBIT: 'rabbit:5672'
+    networks:
+      - ms_network
 
 volumes:
   db-data:

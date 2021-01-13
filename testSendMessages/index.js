@@ -40,7 +40,11 @@ const sendMessage = function (ch) {
     });
 };
 
-amqp.connect('amqp://localhost:5672').then(function (conn) {
+const rabbit = 'amqp://'+(process.env.NODE_RABBIT || 'localhost:5672');
+
+//console.log("Rabbit URL = ", rabbit);
+
+amqp.connect(rabbit).then(function (conn) {
     return conn.createChannel()
         .then(sendMessage)
         .finally(function () {

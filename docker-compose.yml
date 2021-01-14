@@ -94,7 +94,7 @@ services:
     networks:
       - ms_network
 
-  webapp:
+  webapp1:
     image: gabrielltr/icc-react-web-app:latest
 #    build: ./icc-react-web-app/
     ports:
@@ -106,6 +106,33 @@ services:
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
     networks:
       - ms_network
+
+
+  webapp2:
+    image: gabrielltr/icc-react-web-app:latest
+#    build: ./icc-react-web-app/
+    ports:
+      - 90:90
+      - 444:444
+    environment:
+      MS_ENDPOINT: http://localhost:8090
+#      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
+#      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
+    networks:
+      - ms_network
+
+  loadbalance:
+    depends_on:
+      - webapp1
+      - webapp2
+    image: nginx
+    ports:
+      - 8000:80
+    networks:
+      - ms_network
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [ nginx-debug, '-g', 'daemon off;' ]
 
 # TODO adicionar container stopped do node para movimentar os drones
 

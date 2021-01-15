@@ -1,3 +1,7 @@
+# Project description
+
+Solução para o agronegócio que coleta dados via sensores de temperatura e umidade. Esses sensores são instalados em um drone com uma altíssima autonomia de energia, A cada 10 segundos são enviados para o droneDTO broker os dados de temperatura e umidade capturado naquele instante. Além da primeira função também é possível acionar o rastreamento do drone. Esta funcionalidade resulta na localização do equipamento em um mapa.
+
 # Microservices integration 
 
 usage in this project:
@@ -78,10 +82,11 @@ this show health of this backend and if there is a rabbit and mysql connection
 
   -  http://localhost:8090/swagger-ui.html
   -  Assista a demonstração em detalhes aqui:
-  
+   
        https://www.loom.com/share/b86948b290b8490c9c44e98019f11f91
        https://www.loom.com/share/30e400ed77334ea288f9bafebb6d4580
        https://www.loom.com/share/8edf32012d624960898af84f86e10149
+       https://www.loom.com/share/64bb64d6feea469b8621d4a602ca2e5a -> Load Balance
        
   
 ---

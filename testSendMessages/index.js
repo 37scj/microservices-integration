@@ -15,8 +15,8 @@ const sendMessage = function (ch) {
     const ex = 'projeto.mba.fiap';
     const msgs = [1,2,3,4,5,6,7,8,9,10].map(id=> JSON.stringify({
         "id": id,
-        latitude: -23.533773 + rnd(-2, 2),
-        longitude: -46.625290 + rnd(-2, 2),
+        latitude: -23.533773 + rnd(-0.1, 0.1),
+        longitude: -46.625290 + rnd(-0.1, 0.1),
         temperatura: rnd_ceil(-25, 60),
         umidade: rnd_ceil(0, 99)
     }));

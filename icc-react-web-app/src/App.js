@@ -17,41 +17,48 @@ const routes = [
 ];
 
 function App() {
-  return (
-    <div>
-      <CssBaseline />
-      <header className="App-header">ICC - Inter Comm Central</header>
-      <div className="App">
-        <Router>
-          <div className="menu">
-            <ul className="nav">
-              {routes.map((route, i) => (<li key={i} className="navItem">
-                <NavLink to={route.path} exact={route.exact}>{route.name}</NavLink>
-              </li>
-              ))}
-            </ul>
-          </div>
-          <div className="content">
-            <Fade timeout={600} in={true} >
-              <Switch >
-                {routes.map((route, i) => (<Route
-                  key={i}
-                  path={route.path}
-                  exact={route.exact}
-                  component={route.component}
-                />
-                ))}
-                <Route path='*' component={ComponenteDePagina404} />
-              </Switch>
-            </Fade>
-          </div>
-        </Router>
-      </div>
-      <footer>
-        Copyright &copy;
-      </footer>
-    </div>
-  );
+    const api_regex = /^\/api\/.*/
+    // if using "/api/" in the pathname, don't use React Router
+    if (api_regex.test(window.location.pathname)) {
+        return <div /> // must return at least an empty div
+    } else {
+        // use React Router
+        return (
+            <div>
+                <CssBaseline/>
+                <header className="App-header">ICC - Inter Comm Central</header>
+                <div className="App">
+                    <Router>
+                        <div className="menu">
+                            <ul className="nav">
+                                {routes.map((route, i) => (<li key={i} className="navItem">
+                                        <NavLink to={route.path} exact={route.exact}>{route.name}</NavLink>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="content">
+                            <Fade timeout={600} in={true}>
+                                <Switch>
+                                    {routes.map((route, i) => (<Route
+                                            key={i}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            component={route.component}
+                                        />
+                                    ))}
+                                    <Route path='*' component={ComponenteDePagina404}/>
+                                </Switch>
+                            </Fade>
+                        </div>
+                    </Router>
+                </div>
+                <footer>
+                    Copyright &copy;
+                </footer>
+            </div>
+        );
+    }
 }
 
 function ComponenteDePagina404() {

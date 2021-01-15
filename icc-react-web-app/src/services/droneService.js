@@ -1,7 +1,8 @@
 //import React from 'react';
 const fetch = require("isomorphic-fetch");
 const isDebug = true;
-const urlBaseBackend = '/api';//process.env.MS_ENDPOINT?process.env.MS_ENDPOINT:'http://localhost:8090';
+const urlBaseBackend = '/api';//process.env.REACT_APP_API?process.env.REACT_APP_API:'http://localhost:8090';
+const urlBaseBackendTest = process.env.REACT_APP_API?process.env.REACT_APP_API:'/api';
 
 const headers = {
   'Accept': 'application/json, text/plain',
@@ -11,6 +12,7 @@ const opts = { mode: 'no-cors'};
 
 // mode: 'no-cors', // 'cors' by default
 function getAllDrones() {
+  console.log("Teste URL DRONE", urlBaseBackendTest, urlBaseBackend);
   const url = `${urlBaseBackend}/drones`;
   return fetch(url, {
     method: 'GET',

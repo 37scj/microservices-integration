@@ -17,13 +17,19 @@ usage in this project:
       Estamos utilizando o docker compose para a orquestração e automatização de containers.
       No compose temos as seguintes imagens:
       
-      rabbitmq:3-management : Servidor de mensageria
-      mysql : Banco de dados Relacional
-      adminer : O Adminer é uma solução acessível via browser para a administração do MySQL
-      droneProducer : Responsavel por receber as atualizações de dados dos drones essas atualizações seriam (longitude,latitude,temperutura)
-      dronebackend : Responsavel pela manutenção das informações do drone, como a criação do drone contendo (id,temperatura,longitude,latitude,temperutura etc..)
-      icc-react-web-app : 
-      loadbalance:nginx :
+      rabbitmq:3-management -> Servidor de mensageria
+      
+      mysql ->  Banco de dados Relacional
+      
+      adminer -> O Adminer é uma solução acessível via browser para a administração do MySQL
+      
+      droneProducer ->  Responsavel por receber as atualizações de dados dos drones essas atualizações seriam (longitude,latitude,temperutura)
+      
+      dronebackend ->  Responsavel pela manutenção das informações do drone, como a criação do drone contendo (id,temperatura,longitude,latitude,temperutura etc..)
+      
+      icc-react-web-app ->  Responsavel por exibir a interface grafica e realizar as chamadas nas apis para manter a atualização dos dados do drone
+      
+      loadbalance:nginx : Reponsavel por realizar o balanceamento de carga do micro servico do icc-react-web-app end e do dronebackend
 
 
 # Start Up docker things

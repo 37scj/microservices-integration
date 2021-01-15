@@ -1,12 +1,12 @@
 //import React from 'react';
 const fetch = require("isomorphic-fetch");
 const isDebug = true;
-const urlBaseBackend = process.env.MS_ENDPOINT?process.env.MS_ENDPOINT:'http://localhost:8020';
+const urlBaseBackend = '/producer';
 
 const headers = {
   'Accept': 'application/json, text/plain',
   'Content-Type': 'application/json'
-}
+};
 
 /**
  * Simula o envio de dados do drone. Atualiza os dados

@@ -69,7 +69,7 @@ services:
       SPRING_RABBITMQ_HOST: rabbit
       SPRING_RABBITMQ_PORT: 5672
       #SPRING_RABBITMQ_ROUTING-KEY: fiap.mba.drone
-      DRONE_URL_UPDATE: http://drone:8090/drones/%d
+      DRONE_URL_UPDATE: http://loadbalance:8090/drones/%d
     networks:
       - ms_network
 
@@ -117,7 +117,7 @@ services:
 
   webapp1:
     image: gabrielltr/icc-react-web-app:latest
-#    build: ./icc-react-web-app/
+    build: ./icc-react-web-app/
     ports:
       - 81:80
 #      - 443:443

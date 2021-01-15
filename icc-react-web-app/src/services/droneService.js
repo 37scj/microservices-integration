@@ -1,8 +1,8 @@
 //import React from 'react';
 const fetch = require("isomorphic-fetch");
 const isDebug = true;
-const urlBaseBackend = '/api';//process.env.REACT_APP_API?process.env.REACT_APP_API:'http://localhost:8090';
-const urlBaseBackendTest = process.env.REACT_APP_API?process.env.REACT_APP_API:'/api';
+const urlBaseBackend = '/api';//process.env.REACT_APP_API?process.env.REACT_APP_API:'://api';
+const urlBaseBackendTest = process.env.REACT_APP_API?process.env.REACT_APP_API:'/test';
 
 const headers = {
   'Accept': 'application/json, text/plain',

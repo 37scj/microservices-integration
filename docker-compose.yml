@@ -117,12 +117,12 @@ services:
 
   webapp1:
     image: gabrielltr/icc-react-web-app:latest
-    build: ./icc-react-web-app/
+#    build: ./icc-react-web-app/
     ports:
       - 81:80
 #      - 443:443
     environment:
-      MS_ENDPOINT: /drone
+      REACT_APP_API: /api
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
     networks:
@@ -135,7 +135,7 @@ services:
       - 82:80
 #      - 444:444
     environment:
-      MS_ENDPOINT: /drone
+      REACT_APP_API: /api
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
 #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
     networks:

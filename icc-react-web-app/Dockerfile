@@ -1,4 +1,4 @@
-FROM node as builder
+FROM node:14 as builder
 
 WORKDIR /var/lib/app/
 COPY ./package.json ./
@@ -14,4 +14,5 @@ FROM nginx
 #COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /var/lib/app/build/ /usr/share/nginx/html
 ARG REACT_APP_GMAPSKEY=AIzaSyAet8Mk1nPvOn_AebLE5ZxXoGejOD8tPzA
+ENV MS_ENDPOINT /api
 EXPOSE 80

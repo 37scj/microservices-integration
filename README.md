@@ -23,13 +23,13 @@ usage in this project:
       
       adminer -> O Adminer é uma solução acessível via browser para a administração do MySQL
       
-      droneProducer ->  Responsavel por receber as atualizações de dados dos drones essas atualizações seriam (longitude,latitude,temperutura)
+      droneProducer -> Responsável por receber as atualizações de dados dos “drones” essas atualizações seriam (longitude, latitude, temperatura)  
       
-      dronebackend ->  Responsavel pela manutenção das informações do drone, como a criação do drone contendo (id,temperatura,longitude,latitude,temperutura etc..)
+      dronebackend ->  Responsável pela manutenção das informações dos ‘drones’, como a criação do ‘drone’ contendo (id,nome do drone,temperatura,longitude,latitude)
       
-      icc-react-web-app ->  Responsavel por exibir a interface grafica e realizar as chamadas nas apis para manter a atualização dos dados do drone
+      icc-react-web-app ->  Responsável por exibir a ‘interface’ gráfica e realizar as chamadas nas apis para manter a atualização dos dados do ‘drone’
       
-      loadbalance:nginx : Reponsavel por realizar o balanceamento de carga do micro servico do icc-react-web-app end e do dronebackend
+      loadbalance:nginx : Responsável por realizar o balanceamento de carga dos microserviços :  icc-react-web-app end e dronebackend
 
 
 # Start Up docker things

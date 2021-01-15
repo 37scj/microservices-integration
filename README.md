@@ -15,6 +15,10 @@ usage in this project:
 # About docker compose
 
       Estamos utilizando o docker compose para a orquestração e automatização de containers.
+      
+      Todos as imagens pré-compilada, ou seja, empacotada, foi adicionada no repositório do docker hub
+      -> https://hub.docker.com/search?q=gabrielltr&type=image
+      
       No compose temos as seguintes imagens:
       
       rabbitmq:3-management -> Servidor de mensageria
@@ -29,7 +33,7 @@ usage in this project:
       
       icc-react-web-app ->  Responsável por exibir a ‘interface’ gráfica e realizar as chamadas nas apis para manter a atualização dos dados do ‘drone’
       
-      loadbalance:nginx : Responsável por realizar o balanceamento de carga dos microserviços :  icc-react-web-app end e dronebackend
+      loadbalance:nginx -> Responsável por realizar o balanceamento de carga dos microserviços :  icc-react-web-app end e dronebackend
 
 
 # Start Up docker things

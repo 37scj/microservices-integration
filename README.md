@@ -17,7 +17,12 @@ usage in this project:
       Estamos utilizando o docker compose para a orquestração e automatização de containers.
       
       Todos as imagens pré-compilada, ou seja, empacotada, foi adicionada no repositório do docker hub
-      -> https://hub.docker.com/search?q=gabrielltr&type=image
+      
+      Link das imagens :
+      
+           https://hub.docker.com/r/gabrielltr/droneproducer
+           https://hub.docker.com/r/gabrielltr/dronebackend
+           https://hub.docker.com/r/gabrielltr/icc-react-web-app
       
       No compose temos as seguintes imagens:
       

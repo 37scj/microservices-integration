@@ -11,6 +11,8 @@ phases:
       - docker build -t gabrielltr/dronebackend:latest ./dronebackend
       - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance
+      # Log in to the Docker CLI
+      - echo "$DOCKER_PW" | docker login -u "$DOCKER_ID" --password-stdin
   post_build:
     commands:
       - echo Build completed on `date`

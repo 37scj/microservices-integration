@@ -1,0 +1,40 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+      {
+        "name": "nginx",
+        "image": "gabrielltr/loadbalance:nginx",
+        "hostname": "nginx",
+        "essential": true,
+        "portMappings": [
+          {
+            "hostPort": 80,
+            "containerPort": 80
+          }
+        ],
+        "links": ["webapp1", "drone1", "producer"],
+        "memory": 100
+      },
+      {
+        "name": "webapp1",
+        "image": "gabrielltr/icc-react-web-app:latest",
+        "hostname": "webapp1",
+        "essential": false,
+        "memory": 300
+      },
+      {
+        "name": "drone1",
+        "image": "gabrielltr/dronebackend:latest",
+        "hostname": "drone1",
+        "essential": false,
+        "memory": 300
+      },
+      {
+        "name": "producer",
+        "image": "gabrielltr/droneproducer:latest",
+        "hostname": "drone1",
+        "essential": false,
+        "memory": 300
+      }
+    ]
+}

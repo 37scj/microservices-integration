@@ -94,26 +94,26 @@ services:
     networks:
       - ms_network
 
-  drone2:
-    image: gabrielltr/dronebackend:latest
-    #build: ./droneBackend/
-    depends_on:
-      - db
-      - rabbit
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
-      interval: 1m10s
-      timeout: 10s
-      retries: 3
-      #start_period: 40s
-    ports:
-      - 8092:8090
-    environment:
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 987654321
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/droneDB?serverTimezone=UTC
-    networks:
-      - ms_network
+  # drone2:
+  #   image: gabrielltr/dronebackend:latest
+  #   #build: ./droneBackend/
+  #   depends_on:
+  #     - db
+  #     - rabbit
+  #   healthcheck:
+  #     test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
+  #     interval: 1m10s
+  #     timeout: 10s
+  #     retries: 3
+  #     #start_period: 40s
+  #   ports:
+  #     - 8092:8090
+  #   environment:
+  #     SPRING_DATASOURCE_USERNAME: root
+  #     SPRING_DATASOURCE_PASSWORD: 987654321
+  #     SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/droneDB?serverTimezone=UTC
+  #   networks:
+  #     - ms_network
 
   webapp1:
     image: gabrielltr/icc-react-web-app:latest
@@ -128,25 +128,25 @@ services:
     networks:
       - ms_network
 
-  webapp2:
-    image: gabrielltr/icc-react-web-app:latest
-#    build: ./icc-react-web-app/
-    ports:
-      - 82:80
-#      - 444:444
-    environment:
-      REACT_APP_API: /api
-#      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
-#      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
-    networks:
-      - ms_network
+#   webapp2:
+#     image: gabrielltr/icc-react-web-app:latest
+# #    build: ./icc-react-web-app/
+#     ports:
+#       - 82:80
+# #      - 444:444
+#     environment:
+#       REACT_APP_API: /api
+# #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY}
+# #      REACT_APP_GMAPSKEY: ${REACT_APP_GMAPSKEY:AIzaSyD0Rl8_u08deZdD9QJuBWvXmw94lEJlNy0}
+#     networks:
+#       - ms_network
 
   loadbalance:
     depends_on:
       - webapp1
-      - webapp2
+      # - webapp2
       - drone1
-      - drone2
+      # - drone2
     image: gabrielltr/loadbalance:nginx
     build: ./loadbalance
     ports:

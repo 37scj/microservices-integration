@@ -2,6 +2,7 @@ FROM adoptopenjdk:11-jdk-hotspot as compiler
 ARG JAR_FILE=target/*.jar
 COPY . /src
 WORKDIR /src
+RUN chmod +x ./mvnw
 RUN ./mvnw clean 
 RUN ./mvnw package
 

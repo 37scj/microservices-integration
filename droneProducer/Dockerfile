@@ -12,8 +12,6 @@ COPY --from=compiler /src/${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
 FROM adoptopenjdk:11-jre-hotspot
-#RUN apt-get update
-#RUN apt-get -y install curl && apt-get clean
 COPY --from=builder spring-boot-loader/ ./
 COPY --from=builder application/ ./
 # COPY --from=builder dependencies/ ./

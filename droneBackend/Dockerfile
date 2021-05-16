@@ -13,8 +13,8 @@ RUN mkdir /application
 WORKDIR /application
 COPY --from=builder spring-boot-loader/ ./
 COPY --from=builder application/ ./
-# COPY --from=builder dependencies/ ./
-# COPY --from=builder snapshot-dependencies/ ./
+COPY --from=builder dependencies/ ./
+COPY --from=builder snapshot-dependencies/ ./
 ENV SPRING_DATASOURCE_USERNAME=root
 ENV SPRING_DATASOURCE_PASSWORD=root
 ENV SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/droneDB?serverTimezone=UTC

@@ -11,7 +11,7 @@ phases:
       - echo `date`
       - docker build -t gabrielltr/droneproducer:latest ./droneProducer
       - echo `date`
-      - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
+      # - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
       - echo `date`
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance
       - echo `date`

@@ -23,7 +23,7 @@ phases:
       - echo "$DOCKER_PW" | docker login -u "$DOCKER_ID" --password-stdin
       # Take these images and push them to Docker hub
       - echo Pushing the Docker images...
-      - docker push gabrielltr/droneproducer
+      - docker push gabrielltr/dronebackend
       - docker push gabrielltr/droneproducer
       - docker push gabrielltr/icc-react-web-app
       - docker push gabrielltr/loadbalance

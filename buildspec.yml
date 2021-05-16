@@ -34,4 +34,3 @@ artifacts:
   files:
     - Dockerrun.aws.json
   name: Dockerrun.aws
-

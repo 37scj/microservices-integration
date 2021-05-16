@@ -4,21 +4,12 @@ phases:
   install:
     runtime-versions:
       docker: 19
-  build_dronebackend:
+  build:
     commands:
       - echo Build started on `date`
       - docker build -t gabrielltr/dronebackend:latest ./droneBackend
-  build_droneproducer:
-    commands:
-      - echo Build started on `date`
       - docker build -t gabrielltr/droneproducer:latest ./droneProducer
-  build_webapp:
-    commands:
-      - echo Build started on `date`
       - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
-  build_nginx:
-    commands:
-      - echo Build started on `date`
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance
       - echo `date`
   post_build:

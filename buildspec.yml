@@ -30,3 +30,8 @@ phases:
       - docker push gabrielltr/rabbitmq:3-management
       - echo Push completed on `date`
 
+artifacts:
+  files:
+    - Dockerrun.aws.json
+  name: Dockerrun.aws
+

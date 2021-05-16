@@ -7,7 +7,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - cd ./droneProducer && ./mvnw package && cd ..
       - docker build -t gabrielltr/droneproducer:latest ./droneProducer
+      - cd ./droneProducer && ./mvnw package && cd ..
       - docker build -t gabrielltr/dronebackend:latest ./droneBackend
       - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance

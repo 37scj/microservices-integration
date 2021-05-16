@@ -12,7 +12,7 @@ FROM adoptopenjdk:11-jre-hotspot
 RUN mkdir /application
 WORKDIR /application
 COPY --from=builder spring-boot-loader/ ./
-# COPY --from=builder application/ ./
+COPY --from=builder application/ ./
 # COPY --from=builder dependencies/ ./
 # COPY --from=builder snapshot-dependencies/ ./
 ENV SPRING_DATASOURCE_USERNAME=root

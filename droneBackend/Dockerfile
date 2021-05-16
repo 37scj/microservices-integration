@@ -3,7 +3,7 @@ ARG JAR_FILE=target/*.jar
 COPY . /src
 WORKDIR /src
 RUN chmod +x ./mvnw
-RUN ./mvnw clean package install
+RUN ./mvnw clean install
 RUN mv target/*.jar /application.jar
 WORKDIR /
 RUN java -Djarmode=layertools -jar application.jar extract

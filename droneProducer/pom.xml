@@ -89,10 +89,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
+				<!-- <configuration>
 					<image>
 						<name>docker.io/gabrielltr/${project.artifactId}:latest</name>
-<!--						<cleanCache>true</cleanCache>-->
 						<env>
 							<DRONE_URL_UPDATE>http://drone:8090/drones/</DRONE_URL_UPDATE>
 						</env>
@@ -109,7 +108,7 @@
 							<goal>build-image</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 		</plugins>
 	</build>

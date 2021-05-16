@@ -94,10 +94,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
+                <!-- <configuration>
                     <image>
                         <name>docker.io/gabrielltr/${project.artifactId}:latest</name>
-<!--                        <cleanCache>true</cleanCache>-->
                         <env>
                             <SPRING_DATASOURCE_USER>root</SPRING_DATASOURCE_USER>
                             <SPRING_DATASOURCE_PASSWORD>root</SPRING_DATASOURCE_PASSWORD>
@@ -116,7 +115,7 @@
                             <goal>build-image</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions> -->
             </plugin>
 
             <plugin>

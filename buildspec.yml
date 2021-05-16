@@ -3,14 +3,18 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      docker: 18
+      docker: 19
   build:
     commands:
       - echo Build started on `date`
-      - docker build -t gabrielltr/droneproducer:latest ./droneProducer
       - docker build -t gabrielltr/dronebackend:latest ./droneBackend
+      - echo `date`
+      - docker build -t gabrielltr/droneproducer:latest ./droneProducer
+      - echo `date`
       - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
+      - echo `date`
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance
+      - echo `date`
       # Log in to the Docker CLI
       - echo "$DOCKER_PW" | docker login -u "$DOCKER_ID" --password-stdin
   post_build:

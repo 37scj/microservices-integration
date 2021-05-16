@@ -1,14 +1,11 @@
-FROM adoptopenjdk:11-jdk-hotspot as compiler
+FROM adoptopenjdk:11-jdk-hotspot as builder
 ARG JAR_FILE=target/*.jar
 COPY . /src
 WORKDIR /src
 RUN chmod +x ./mvnw
-RUN ./mvnw clean 
-RUN ./mvnw package
-
-FROM adoptopenjdk:11-jre-hotspot as builder
-ARG JAR_FILE=target/*.jar
-COPY --from=compiler /src/${JAR_FILE} application.jar
+RUN ./mvnw clean package install
+RUN mv target/*.jar /application.jar
+WORKDIR /
 RUN java -Djarmode=layertools -jar application.jar extract
 
 FROM adoptopenjdk:11-jre-hotspot

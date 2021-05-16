@@ -7,6 +7,7 @@ RUN ./mvnw clean package install
 RUN mv target/*.jar /application.jar
 WORKDIR /
 RUN java -Djarmode=layertools -jar application.jar extract
+RUN ls -lha
 
 FROM adoptopenjdk:11-jre-hotspot
 #RUN apt-get update

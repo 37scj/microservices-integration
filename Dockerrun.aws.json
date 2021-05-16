@@ -26,7 +26,7 @@
           }
         ],
         "essential": false,
-        "memory": 300,
+        "memory": 300
       },
       {
         "name": "drone1",

@@ -4,13 +4,17 @@ phases:
   install:
     runtime-versions:
       docker: 19
+  pre_build:
+    commands:
+      - echo Building pre packages on `date`
+      - docker build -t gabrielltr/rabbitmq:3-management ./rabiit
+      - docker build -t gabrielltr/loadbalance:latest ./loadbalance
   build:
     commands:
       - echo Build started on `date`
       - docker build -t gabrielltr/dronebackend:latest ./droneBackend
       - docker build -t gabrielltr/droneproducer:latest ./droneProducer
       - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
-      - docker build -t gabrielltr/loadbalance:latest ./loadbalance
       - echo `date`
   post_build:
     commands:
@@ -23,4 +27,5 @@ phases:
       - docker push gabrielltr/droneproducer
       - docker push gabrielltr/icc-react-web-app
       - docker push gabrielltr/loadbalance
+      - docker push gabrielltr/rabbitmq:3-management
       - echo Push completed on `date`

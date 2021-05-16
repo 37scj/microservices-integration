@@ -7,7 +7,7 @@ phases:
   pre_build:
     commands:
       - echo Building pre packages on `date`
-      - docker build -t gabrielltr/rabbitmq:3-management ./rabiit
+      - docker build -t gabrielltr/rabbitmq:3-management ./rabbit
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance
   build:
     commands:

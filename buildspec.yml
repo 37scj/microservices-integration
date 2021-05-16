@@ -8,11 +8,8 @@ phases:
     commands:
       - echo Build started on `date`
       - docker build -t gabrielltr/dronebackend:latest ./droneBackend
-      - echo `date`
       - docker build -t gabrielltr/droneproducer:latest ./droneProducer
-      - echo `date`
-      # - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
-      - echo `date`
+      - docker build -t gabrielltr/icc-react-web-app:latest ./icc-react-web-app
       - docker build -t gabrielltr/loadbalance:latest ./loadbalance
       - echo `date`
       # Log in to the Docker CLI

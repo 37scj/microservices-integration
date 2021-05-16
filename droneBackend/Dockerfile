@@ -12,10 +12,10 @@ RUN ls -lha
 FROM adoptopenjdk:11-jre-hotspot
 #RUN apt-get update
 #RUN apt-get -y install curl && apt-get clean
+COPY --from=builder application/ ./
 COPY --from=builder dependencies/ ./
 COPY --from=builder snapshot-dependencies/ ./
 COPY --from=builder spring-boot-loader/ ./
-COPY --from=builder application/ ./
 ENV SPRING_DATASOURCE_USERNAME=root
 ENV SPRING_DATASOURCE_PASSWORD=root
 ENV SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/droneDB?serverTimezone=UTC
